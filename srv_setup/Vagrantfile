@@ -1,0 +1,38 @@
+Vagrant.configure("2") do |config|
+  config.hostmanager.enabled = true 
+  config.hostmanager.manage_host = true
+
+  config.vm.define "jenkins" do |jenkins|
+    jenkins.vm.box = "ubuntu/focal64"
+    jenkins.vm.hostname = "jenkins"
+    jenkins.vm.network "public_network" #bridged
+    jenkins.vm.network "private_network", ip: "192.168.1.10"
+    jenkins.vm.provision "shell", inline: "sudo bash /vagrant/jenkins-setup.sh"
+    jenkins.vm.provider "virtualbox" do |vb|
+      vb.memory = 4096
+      vb.cpus = 2
+    end
+  end
+  config.vm.define "nexus" do |nexus|
+    nexus.vm.box = "ubuntu/focal64"
+    nexus.vm.hostname = "nexus"
+    nexus.vm.network "public_network" #bridged
+    nexus.vm.network "private_network", ip: "192.168.1.20"
+    nexus.vm.provision "shell", inline: "sudo bash /vagrant/nexus-setup.sh"
+    nexus.vm.provider "virtualbox" do |vb|
+      vb.memory = 4096
+      vb.cpus = 1
+    end
+  end
+    config.vm.define "sonar" do |sonar|
+      sonar.vm.box = "ubuntu/focal64"
+      sonar.vm.hostname = "sonar"
+      sonar.vm.network "public_network" #bridged
+      sonar.vm.network "private_network", ip: "192.168.1.30"
+      sonar.vm.provision "shell", inline: "sudo bash /vagrant/sonar-setup.sh"
+      sonar.vm.provider "virtualbox" do |vb|
+        vb.memory = 2048
+        vb.cpus = 1
+      end
+    end
+end
