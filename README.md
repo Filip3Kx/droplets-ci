@@ -1,29 +1,14 @@
-> WIP
+# droplets-ci
 
-# droplets
+Looked for a repository to practice CI/CD on. Here is a pipeline using
+- Jenkins to run jobs (port 8080 web app, port 8081 jenkins service)
+- Fossa and SonarQube for analysis (port 80)
+- Nexus for storing artifacts and docker images for deployment (port 8081, private docker registry 8082)
 
-[![GoDoc](https://godoc.org/github.com/spy16/droplets?status.svg)](https://godoc.org/github.com/spy16/droplets) [![Go Report Card](https://goreportcard.com/badge/github.com/spy16/droplets)](https://goreportcard.com/report/github.com/spy16/droplets)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fspy16%2Fdroplets.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fspy16%2Fdroplets?ref=badge_shield)
+## CI/CD Pipeline
+![image](https://github.com/Filip3Kx/droplets-ci/assets/114138650/5a307468-2f01-49ed-8129-4cf44210da5c)
 
-A platform for Gophers similar to the awesome [Golang News](http://golangnews.com).
+## Configuration
+Configure the 3 servers mentioned above. Except for Fossa which is going to be accessed from an API. There are some scripts to help you with physical setup in [] directory. 
 
-## Why?
-
-Droplets is built to showcase:
-
-1. Application of [CodeReviewComments](https://github.com/golang/go/wiki/CodeReviewComments) and [EffectiveGo](https://golang.org/doc/effective_go.html)
-2. Usage of [Clean Architecture](http://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-3. Testing practices such as [Table-driven tests](https://github.com/golang/go/wiki/TableDrivenTests)
-
-Follow the links to understand best practices and conventions used:
-1. [Directory Structure](./docs/organization.md)
-2. [Interfaces](./docs/interfaces.md)
-
-## Building
-
-Droplets uses `go mod` (available from `go 1.11`) for dependency management.
-
-To test and build, run `make all`.
-
-## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fspy16%2Fdroplets.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fspy16%2Fdroplets?ref=badge_large)
+With AWS setup is the same except for allowing specified security groups to connect on some ports.
