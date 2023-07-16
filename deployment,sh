@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "Pulling image from Nexus Registry"
+docker pull 192.168.1.20:8082/droplets-web-container
+echo "Setting up the stack"
+docker compose up -d
+echo 'Use "docker compose down" to remove the created containers and network'
