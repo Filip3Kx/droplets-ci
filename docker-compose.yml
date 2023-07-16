@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   droplets:
-    build: ./
+    image: 192.168.1.20:8082/droplets-web-container
     environment:
       - MONGO_URI=mongodb://mongo
       - LOG_LEVEL=info
