@@ -81,5 +81,10 @@ pipeline {
                 )
             }
         }
+        stage("Build & Push Docker image to nexus") {
+            sh 'docker build -t droplets-web-container'
+            sh 'docker tag droplets-web-container 192.168.1.20:8082'
+            sh 'docker push 192.168.1.20:8082/droplets-web-container'
+        }
     }
 }
