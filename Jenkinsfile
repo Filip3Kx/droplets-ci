@@ -11,12 +11,11 @@
 
 pipeline {
     environment {
-        scannerServer = 'sonar_server'
-        dockerImage = 'docker-private/droplets_ci:latest'
+        scannerServer = '<>'
         gitRepo = 'https://github.com/Filip3Kx/droplets-ci'
         gitBranch = 'master'
-        scannerHome = tool 'sonar4.8'
-        fossaApiKey = 'e5c6d376d251417922f5af4a93fd85ee'
+        scannerHome = tool '<>'
+        fossaApiKey = '<>'
     }
     agent any
     stages {
@@ -82,9 +81,14 @@ pipeline {
             }
         }
         stage("Build & Push Docker image to nexus") {
-            sh 'docker build -t droplets-web-container'
-            sh 'docker tag droplets-web-container 192.168.1.20:8082'
-            sh 'docker push 192.168.1.20:8082/droplets-web-container'
+            steps{
+                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+                    sh "docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWORD 192.168.1.20:8082"
+                }
+                sh 'docker build -t droplets-web-container .'
+                sh 'docker tag droplets-web-container 192.168.1.20:8082/droplets-web-container'
+                sh 'docker push 192.168.1.20:8082/droplets-web-container'
+            }
         }
     }
 }
