@@ -8,7 +8,14 @@ Here is a pipeline using
 - Nexus for storing artifacts and docker images for deployment (port 8081, private docker registry 8082)
 
 ## CI/CD Pipeline
-![image](https://github.com/Filip3Kx/droplets-ci/assets/114138650/5a307468-2f01-49ed-8129-4cf44210da5c)
+- After a change in the code is picked up by jenkins it runs the pipeline form [Jenkinsfile](https://github.com/Filip3Kx/droplets-ci/blob/master/Jenkinsfile)
+- Git checkout
+- Build the app
+- Analyze the code with SonarQube
+- Use Fossa API for dependencies scan
+- Archive in Nexus both the .bin artifact and the docker image created from [Dockerfile](https://github.com/Filip3Kx/droplets-ci/blob/master/Dockerfile)
+
+![image](https://github.com/Filip3Kx/droplets-ci/assets/114138650/bb2a8d5e-1850-4dd4-b52e-f66d684172b0)
 
 I don't want the deployment to be fully automatic for some QA work to be done after the artifact and the docker image is deployed to the Nexus repository. The deployment itself is going to be done from an Ansible playbook that could also be made into a Jenkins project. The process is done in [deployment.sh](https://github.com/Filip3Kx/droplets-ci/blob/master/deployment%2Csh) script
 
