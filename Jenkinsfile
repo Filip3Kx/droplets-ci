@@ -8,7 +8,6 @@
 // - set up credentials for sonar and nexus
 // - configure sonar tool
 // - configure docker cloud
-
 pipeline {
     environment {
         scannerServer = '<>'
@@ -66,7 +65,7 @@ pipeline {
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: '192.168.1.20:8081',
+                    nexusUrl: '<nexus url>',
                     groupId: 'Prod',
                     version: "${env.BUILD_ID}_${env.BUILD_TIMESTAMP}",
                     repository: 'droplets-repo',
@@ -82,19 +81,18 @@ pipeline {
         }
         stage("Build & Push Docker image to nexus") {
             steps{
-                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
-                    sh "docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWORD 192.168.1.20:8082"
+                withCredentials([usernamePassword(credentialsId: 'nexus', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+                    sh "docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWORD <nexus url>"
                 }
                 sh 'docker build -t droplets-web-container .'
-                sh 'docker tag droplets-web-container 192.168.1.20:8082/droplets-web-container'
-                sh 'docker push 192.168.1.20:8082/droplets-web-container'
+                sh 'docker tag droplets-web-container <nexus url>/droplets-web-container'
+                sh 'docker push <nexus url>/droplets-web-container'
             }
         }
     }
     post {
         always {
-            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
-
+            mail bcc: '', body: "Build ${env.BUILD_ID} has ended with a ${currentBuild.currentResult} \\n More info at ${env.BUILD_URL}", cc: '', from: '', replyTo: '', subject: "Jenkins job | ${env.BUILD_ID}", to: '<recipients>'
         }
     }
 }
