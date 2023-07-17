@@ -14,6 +14,7 @@ Here is a pipeline using
 - Analyze the code with SonarQube
 - Use Fossa API for dependencies scan
 - Archive in Nexus both the .bin artifact and the docker image created from [Dockerfile](https://github.com/Filip3Kx/droplets-ci/blob/master/Dockerfile)
+- Notify whether the build was succesful or not via mail
 
 ![image](https://github.com/Filip3Kx/droplets-ci/assets/114138650/bb2a8d5e-1850-4dd4-b52e-f66d684172b0)
 
